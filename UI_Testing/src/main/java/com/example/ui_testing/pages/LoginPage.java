@@ -1,9 +1,9 @@
 package com.example.ui_testing.pages;
 
 import net.serenitybdd.core.pages.PageObject;
-import net.serenitybdd.core.annotations.findby.FindBy;
 import net.thucydides.core.annotations.DefaultUrl;
 import org.openqa.selenium.WebElement;
+import net.serenitybdd.core.annotations.findby.FindBy;
 
 @DefaultUrl("https://www.saucedemo.com")
 public class LoginPage extends PageObject {
@@ -21,7 +21,7 @@ public class LoginPage extends PageObject {
     private WebElement errorMessage;
 
     public void enterCredentials(String username, String password) {
-        element(usernameField).clear();
+        element(usernameField).waitUntilVisible().clear();
         element(usernameField).sendKeys(username);
         element(passwordField).clear();
         element(passwordField).sendKeys(password);
@@ -29,7 +29,7 @@ public class LoginPage extends PageObject {
     }
 
     public String getErrorMessage() {
-        element(errorMessage).shouldBeVisible();
+        element(errorMessage).waitUntilVisible();
         return element(errorMessage).getText();
     }
 }

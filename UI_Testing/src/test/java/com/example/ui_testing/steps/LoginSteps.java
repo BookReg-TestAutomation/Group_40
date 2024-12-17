@@ -4,16 +4,26 @@ import com.example.ui_testing.pages.LoginPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.thucydides.core.annotations.Steps;
 import org.junit.Assert;
+import net.serenitybdd.core.steps.ScenarioActor;
 
-public class LoginSteps {
+public class LoginSteps extends ScenarioActor {
 
+    @Steps
     private LoginPage loginPage;
 
     @Given("I am on the login page")
     public void i_am_on_the_login_page() {
         loginPage.open();
-        loginPage.getDriver().manage().window().maximize();
+    }
+
+    @Given("I am logged in as {string}")
+    public void iAmLoggedInAs(String username) {
+        loginPage.open();
+        loginPage.enterCredentials(username, "secret_sauce");
+        Assert.assertTrue("Should be redirected to inventory page",
+                loginPage.getDriver().getCurrentUrl().contains("/inventory.html"));
     }
 
     @When("I enter username {string} and password {string}")
@@ -29,8 +39,7 @@ public class LoginSteps {
 
     @Then("I should see an error message {string}")
     public void i_should_see_an_error_message(String expectedError) {
-        String actualError = loginPage.getErrorMessage();
-        Assert.assertEquals("Error message doesn't match",
-                expectedError, actualError);
+        Assert.assertEquals("Error message should match",
+                expectedError, loginPage.getErrorMessage());
     }
 }
