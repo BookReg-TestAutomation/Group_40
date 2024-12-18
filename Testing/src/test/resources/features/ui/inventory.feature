@@ -1,3 +1,4 @@
+@inventory
 Feature: Inventory Page Functionality
 
   Background:

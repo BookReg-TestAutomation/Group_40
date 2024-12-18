@@ -1,0 +1,88 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven 3.9.9'  // Use the Maven version configured in Jenkins
+        jdk 'JDK 21'         // Use the JDK version configured in Jenkins
+    }
+
+    environment {
+        // Define environment variables
+        CHROME_BINARY = '/usr/bin/google-chrome'  // Update path based on your system
+        REPORTS_DIR = 'target/site/serenity'
+        // Add Git configurations
+        GIT_REPO = 'https://github.com/YourUsername/YourRepository.git'  // Replace with your repo URL
+        GIT_BRANCH = 'main'  // Replace with your branch name
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from Git repository
+                git branch: env.GIT_BRANCH,
+                    url: env.GIT_REPO,
+                    credentialsId: 'your-git-credentials-id'  // Configure this in Jenkins credentials
+            }
+        }
+
+        stage('Clean') {
+            steps {
+                // Clean the project
+                sh 'mvn clean'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // Install dependencies
+                sh 'mvn install -DskipTests=true'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                // Run Serenity tests
+                sh 'mvn verify serenity:aggregate'
+            }
+            post {
+                always {
+                    // Publish Serenity reports
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'target/site/serenity',
+                        reportFiles: 'index.html',
+                        reportName: 'Serenity Test Report'
+                    ])
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Archive test results and artifacts
+            archiveArtifacts artifacts: 'target/site/serenity/**/*', fingerprint: true
+            // Clean workspace after build
+            cleanWs()
+        }
+
+        success {
+            echo 'Test execution completed successfully!'
+        }
+
+        failure {
+            echo 'Test execution failed. Please check the logs and reports for details.'
+        }
+    }
+
+    options {
+        // Set timeout for the entire pipeline
+        timeout(time: 1, unit: 'HOURS')
+        // Keep build logs and artifacts for 10 builds
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        // Don't run concurrent builds
+        disableConcurrentBuilds()
+    }
+}
