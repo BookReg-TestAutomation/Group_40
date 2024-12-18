@@ -11,8 +11,7 @@ import org.junit.runner.RunWith;
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports"
-        },
-        tags="@inventory"
+        }
 )
 public class UITestRunner {
 }
