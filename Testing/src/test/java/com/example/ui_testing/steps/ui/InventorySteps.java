@@ -1,4 +1,4 @@
-package com.example.ui_testing.steps;
+package com.example.ui_testing.steps.ui;
 
 import com.example.ui_testing.pages.InventoryPage;
 import com.example.ui_testing.pages.LoginPage;

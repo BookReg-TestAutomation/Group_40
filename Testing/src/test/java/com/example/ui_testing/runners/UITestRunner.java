@@ -8,7 +8,11 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "com.example.ui_testing.steps",
-        plugin = {"pretty"}
+        plugin = {
+                "pretty",
+                "html:target/cucumber-reports"
+        },
+        tags="@inventory"
 )
-public class TestRunner {
+public class UITestRunner {
 }
