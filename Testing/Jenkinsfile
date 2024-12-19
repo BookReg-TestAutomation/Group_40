@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.9'
+        maven 'Maven 3.9.5'
         jdk 'JDK 21'
     }
 
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Run Tests') {
             parallel {
-                stage('Testing') {
+                stage('UI Tests') {
                     steps {
                         script {
                             // Adjust these paths to match your actual project structure
