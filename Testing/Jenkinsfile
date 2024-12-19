@@ -12,7 +12,8 @@ pipeline {
                 cleanWs()
                 git branch: 'main',
                     url: 'https://github.com/BookReg-TestAutomation/Group_40.git'
-                    credentialsId:'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'            }
+                    credentialsId:'github-pat'
+            }
         }
 
         stage('Run Tests') {
