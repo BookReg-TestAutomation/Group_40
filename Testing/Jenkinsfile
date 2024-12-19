@@ -19,37 +19,29 @@ pipeline {
             parallel {
                 stage('UI Tests') {
                     steps {
-                        dir('Testing') {
-                            script {
-                                // Check for UI test resources
-                                if (!fileExists('src/test/resources/features/ui/inventory.feature') ||
-                                    !fileExists('src/test/resources/features/ui/login.feature')) {
-                                    error 'UI feature files not found'
-                                }
-                                if (!fileExists('src/test/java/com/example/ui_testing/runners/UITestRunner.java')) {
-                                    error 'UI Test Runner not found'
-                                }
+                        script {
+                            // Adjust these paths to match your actual project structure
+                            if (!fileExists('src/test/resources/features/ui/inventory.feature') ||
+                                !fileExists('src/test/resources/features/ui/login.feature')) {
+                                error 'UI feature files not found'
                             }
-                            // Run UI tests using the test runner
-                            bat '''
-                                mvn clean test -Dtest=com.example.ui_testing.runners.UITestRunner
-                            '''
+                            if (!fileExists('src/test/java/com/example/ui_testing/runners/UITestRunner.java')) {
+                                error 'UI Test Runner not found'
+                            }
+
+                            bat 'mvn clean test -Dtest=com.example.ui_testing.runners.UITestRunner'
                         }
                     }
                 }
 
                 stage('API Tests') {
                     steps {
-                        dir('Testing') {
-                            script {
-                                if (!fileExists('src/test/resources/features/api')) {
-                                    error 'API feature files not found'
-                                }
+                        script {
+                            if (!fileExists('src/test/resources/features/api')) {
+                                error 'API feature files not found'
                             }
-                            // Run API tests
-                            bat '''
-                                mvn clean test -Dtest=**/steps/api/*Test
-                            '''
+
+                            bat 'mvn clean test -Dtest=**/steps/api/*Test'
                         }
                     }
                 }
@@ -62,12 +54,11 @@ pipeline {
             echo 'All tests completed successfully!'
             junit '**/target/surefire-reports/*.xml'
 
-            // Publish Serenity reports if they're generated
             publishHTML(target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
-                reportDir: 'Testing/target/site/serenity',
+                reportDir: 'target/site/serenity',
                 reportFiles: 'index.html',
                 reportName: 'Serenity Test Report'
             ])
@@ -77,7 +68,7 @@ pipeline {
             junit '**/target/surefire-reports/*.xml'
         }
         always {
-            archiveArtifacts artifacts: 'Testing/target/site/serenity/**/*', fingerprint: true
+            archiveArtifacts artifacts: 'target/site/serenity/**/*', fingerprint: true
             cleanWs()
         }
     }
