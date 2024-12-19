@@ -7,11 +7,12 @@ pipeline {
     }
 
     stages {
-        stage('Get Code') {
-            steps {
-                cleanWs()
-                git branch: 'main',
-                    url: 'https://github.com/BookReg-TestAutomation/Group_40.git'
+            stage('Checkout') {
+                steps {
+                    git branch: 'main',
+                        credentialsId: 'github-ssh',
+                        url: 'git@github.com:BookReg-TestAutomation/Group_40.git'
+                }
             }
         }
 
