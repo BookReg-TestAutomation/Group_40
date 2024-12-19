@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<junit-platform-suite>
+    <suite-controllers>
+        <suite-controller class-name="com.example.ui_testing.steps.UITestRunner" />
+    </suite-controllers>
+
+    <package-to-scan>
+        <package>com.example.ui_testing</package>
+    </package-to-scan>
+
+    <tags>
+        <include>@smoke</include>
+        <include>@regression</include>
+    </tags>
+
+    <reports>
+        <report-generator implementation="net.thucydides.junit.xml.SerenityXMLReportGenerator">
+            <target>target/site/serenity/serenity-junit.xml</target>
+        </report-generator>
+    </reports>
+</junit-platform-suite>

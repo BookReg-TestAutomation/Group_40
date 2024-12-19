@@ -2,87 +2,83 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.9'  // Use the Maven version configured in Jenkins
-        jdk 'JDK 21'         // Use the JDK version configured in Jenkins
-    }
-
-    environment {
-        // Define environment variables
-        CHROME_BINARY = '/usr/bin/google-chrome'  // Update path based on your system
-        REPORTS_DIR = 'target/site/serenity'
-        // Add Git configurations
-        GIT_REPO = 'https://github.com/YourUsername/YourRepository.git'  // Replace with your repo URL
-        GIT_BRANCH = 'main'  // Replace with your branch name
+        maven 'Maven 3.9.9'
+        jdk 'JDK 21'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Get Code') {
             steps {
-                // Checkout code from Git repository
-                git branch: env.GIT_BRANCH,
-                    url: env.GIT_REPO,
-                    credentialsId: 'your-git-credentials-id'  // Configure this in Jenkins credentials
-            }
-        }
-
-        stage('Clean') {
-            steps {
-                // Clean the project
-                sh 'mvn clean'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                // Install dependencies
-                sh 'mvn install -DskipTests=true'
+                cleanWs()
+                git branch: 'main',
+                    url: 'https://github.com/BookReg-TestAutomation/Group_40.git'
             }
         }
 
         stage('Run Tests') {
-            steps {
-                // Run Serenity tests
-                sh 'mvn verify serenity:aggregate'
-            }
-            post {
-                always {
-                    // Publish Serenity reports
-                    publishHTML(target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'target/site/serenity',
-                        reportFiles: 'index.html',
-                        reportName: 'Serenity Test Report'
-                    ])
+            parallel {
+                stage('UI Tests') {
+                    steps {
+                        dir('Testing') {
+                            script {
+                                // Check for UI test resources
+                                if (!fileExists('src/test/resources/features/ui/inventory.feature') ||
+                                    !fileExists('src/test/resources/features/ui/login.feature')) {
+                                    error 'UI feature files not found'
+                                }
+                                if (!fileExists('src/test/java/com/example/ui_testing/runners/UITestRunner.java')) {
+                                    error 'UI Test Runner not found'
+                                }
+                            }
+                            // Run UI tests using the test runner
+                            bat '''
+                                mvn clean test -Dtest=com.example.ui_testing.runners.UITestRunner
+                            '''
+                        }
+                    }
+                }
+
+                stage('API Tests') {
+                    steps {
+                        dir('Testing') {
+                            script {
+                                if (!fileExists('src/test/resources/features/api')) {
+                                    error 'API feature files not found'
+                                }
+                            }
+                            // Run API tests
+                            bat '''
+                                mvn clean test -Dtest=**/steps/api/*Test
+                            '''
+                        }
+                    }
                 }
             }
         }
     }
 
     post {
+        success {
+            echo 'All tests completed successfully!'
+            junit '**/target/surefire-reports/*.xml'
+
+            // Publish Serenity reports if they're generated
+            publishHTML(target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'Testing/target/site/serenity',
+                reportFiles: 'index.html',
+                reportName: 'Serenity Test Report'
+            ])
+        }
+        failure {
+            echo 'Some tests failed - check the test results for details'
+            junit '**/target/surefire-reports/*.xml'
+        }
         always {
-            // Archive test results and artifacts
-            archiveArtifacts artifacts: 'target/site/serenity/**/*', fingerprint: true
-            // Clean workspace after build
+            archiveArtifacts artifacts: 'Testing/target/site/serenity/**/*', fingerprint: true
             cleanWs()
         }
-
-        success {
-            echo 'Test execution completed successfully!'
-        }
-
-        failure {
-            echo 'Test execution failed. Please check the logs and reports for details.'
-        }
-    }
-
-    options {
-        // Set timeout for the entire pipeline
-        timeout(time: 1, unit: 'HOURS')
-        // Keep build logs and artifacts for 10 builds
-        buildDiscarder(logRotator(numToKeepStr: '10'))
-        // Don't run concurrent builds
-        disableConcurrentBuilds()
     }
 }
