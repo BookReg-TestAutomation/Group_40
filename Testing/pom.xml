@@ -20,9 +20,17 @@
         <java.version>21</java.version>
         <serenity.version>3.9.0</serenity.version>
         <cucumber.version>7.15.0</cucumber.version>
+        <restassured.version>3.9.0</restassured.version>
     </properties>
 
     <dependencies>
+        <!-- Jackson for JSON processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.3</version>
+        </dependency>
+
         <!-- Spring Boot Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,6 +68,13 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.8.2</version>
+        </dependency>
+
+        <!--rest assured -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-rest-assured</artifactId>
+            <version>${serenity.version}</version>
         </dependency>
 
         <!-- Serenity Cucumber -->
