@@ -5,7 +5,6 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 import net.thucydides.core.annotations.Steps;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Map;
@@ -13,19 +12,20 @@ import com.example.testing.utils.ApiTestContext;
 
 public class GetAllBooksSteps {
 
-    @Steps
-    private ApiTestContext apiContext;
+//    @Steps
+//    private ApiTestContext apiContext;
+    private CommonSteps commonSteps;
     private Response response;
 
-    @Given("the library system is running at {string}")
-    public void theLibrarySystemIsRunningAt(String baseUrl) {
-        apiContext.setBaseUrl(baseUrl);
-    }
-
-    @Given("I am authenticated as {string} with password {string}")
-    public void iAmAuthenticatedAsWithPassword(String username, String password) {
-        apiContext.setBasicAuth(username, password);
-    }
+//    @Given("the library system is running at {string}")
+//    public void theLibrarySystemIsRunningAt(String baseUrl) {
+//        apiContext.setBaseUrl(baseUrl);
+//    }
+//
+//    @Given("I am authenticated as {string} with password {string}")
+//    public void iAmAuthenticatedAsWithPassword(String username, String password) {
+//        apiContext.setBasicAuth(username, password);
+//    }
 
     @Given("there are books in the system")
     public void thereAreBooksInTheSystem() {
@@ -35,16 +35,20 @@ public class GetAllBooksSteps {
                 "author": "Test Author"
             }
             """;
+        ApiTestContext apiContext = ApiTestContext.getInstance();
         apiContext.createBook(bookPayload);
     }
 
     @When("I send a GET request to {string}")
     public void iSendAGETRequestTo(String endpoint) {
+        System.out.println("Inside the GetAllBooks step file");
+        ApiTestContext apiContext = ApiTestContext.getInstance();
         response = apiContext.sendGetRequest(endpoint);
     }
 
     @When("I send a GET request to {string} without authentication")
     public void iSendAGETRequestToWithoutAuthentication(String endpoint) {
+        ApiTestContext apiContext = ApiTestContext.getInstance();
         response = apiContext.sendGetRequestWithoutAuth(endpoint);
     }
 

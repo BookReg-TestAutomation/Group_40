@@ -1,0 +1,109 @@
+package com.example.testing.steps.api;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import net.thucydides.core.annotations.Steps;
+
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import com.example.testing.utils.ApiTestContext;
+
+public class CreateBookSteps {
+
+    private Response response;
+
+    // Scenarios related to Creating a Book
+
+    @When("I send a POST request to {string} with the following data:")
+    public void iSendAPostRequestToWithTheFollowingData(String endpoint, Map<String, String> bookData) {
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendPostRequest(endpoint, bookData);
+    }
+
+    @Then("the response status code is {int}")
+    public void checkResponseStatusCode(int expectedStatusCode) {
+        assertEquals(expectedStatusCode, response.getStatusCode());
+    }
+
+//    @Then("the response should contain {string} with value {string} and {string} with value {string}")
+//    public void theResponseShouldContainWithValueAndWithValue(String field1, String value1, String field2, String value2) {
+//        String actualValue1 = response.jsonPath().getString(field1);
+//        String actualValue2 = response.jsonPath().getString(field2);
+//        assertEquals(value1, actualValue1);
+//        assertEquals(value2, actualValue2);
+//    }
+
+    // Scenarios for Invalid Inputs
+    @When("I send a POST request to {string} with title null and an author {string}")
+    public void iSendAPostRequestWithANullTitleAndAnAuthor(String endpoint,String author) {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("title", null);
+        requestBody.put("author", author);
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendPostRequestWithNullValues(endpoint, requestBody);
+    }
+
+    @When("I send a POST request to {string} with id {string} and the following data:")
+    public void iSendAPostRequestWithInvalidId(String endpoint,String id,Map<String, String> bookData) {
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.iSendAPostRequestWithInvalidId(endpoint,id,bookData);
+    }
+
+    @When("I send a POST request to {string} without authentication with the following data:")
+    public void iSendAPostRequestToWithoutAuthenticationWithTheFollowingData(String endpoint, Map<String, String> bookData) {
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendPostRequestWithoutAuth(endpoint, bookData);
+    }
+
+    @Then("the response should indicate invalid data types")
+    public void theResponseShouldIndicateInvalidDataTypes() {
+        String errorMessage = response.jsonPath().getString("error");
+        assertTrue(errorMessage.contains("Invalid data type"));
+    }
+
+    @Then("the response should contain {string} error message")
+    public void theResponseShouldContainErrorMessage(String errorMessage) {
+        String responseBody = response.getBody().asString();
+
+        if (responseBody == null || responseBody.isEmpty()) {
+            throw new AssertionError("Response body is empty or null");
+        }
+
+        // Attempt to extract the error message from the JSON response
+        try {
+            String actualMessage = response.jsonPath().getString("error");
+            assertEquals(errorMessage, actualMessage);
+        } catch (Exception e) {
+            throw new AssertionError("Error message not found or invalid JSON format: " + e.getMessage());
+        }
+    }
+
+    @When("I send another POST request to {string} with the same id:")
+    public void iSendAnotherPostRequestToWithTheSameId(String endpoint, Map<String, String> bookData) {
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendPostRequest(endpoint, bookData);
+    }
+
+    @Given("I create a book with id {int}")
+    public void iCreateABookWithIdOnly(int bookId) {
+        Map<String, String> bookData = new HashMap<>();
+        bookData.put("id", String.valueOf(bookId));
+        bookData.put("title", "Book With Same Id");
+        bookData.put("author", "Author Test");
+
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendPostRequest("/api/books", bookData);
+    }
+
+    // Scenario for Special Character Handling
+    @Then("the response should correctly include special characters")
+    public void theResponseShouldCorrectlyIncludeSpecialCharacters() {
+        String author = response.jsonPath().getString("author");
+        assertTrue(author.matches(".*[!@#$%^&*].*"));
+    }
+}
