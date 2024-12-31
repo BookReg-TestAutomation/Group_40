@@ -41,9 +41,9 @@ jobs:
         run: |
           mkdir -p target/site/serenity
           mvn clean verify -Dtest="ApiTestRunner" -Dserenity.outputDirectory=target/site/serenity
+      
 
-
-# Step 6: Save Serenity BDD Results as Artifacts
+      # Step 6: Save Serenity BDD Results as Artifacts
       - name: Archive Serenity API Results
         if: always()
         uses: actions/upload-artifact@v3
@@ -79,7 +79,7 @@ jobs:
           mkdir -p target/site/serenity
           mvn clean verify -Dtest="UITestRunner" -Dserenity.outputDirectory=target/site/serenity
 
-# Step 5: Save Serenity BDD Results as Artifacts
+      # Step 5: Save Serenity BDD Results as Artifacts
       - name: Archive Serenity UI Results
         if: always()
         uses: actions/upload-artifact@v3
