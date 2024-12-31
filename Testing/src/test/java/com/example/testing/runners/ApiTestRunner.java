@@ -1,4 +1,4 @@
-package com.example.ui_testing.runners;
+package com.example.testing.runners;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
@@ -6,12 +6,13 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features",
-        glue = "com.example.ui_testing.steps",
+        features = "src/test/resources/features/api",
+        glue = {"com.example.testing.steps.api"},
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports"
         }
 )
-public class UITestRunner {
+
+public class ApiTestRunner {
 }
