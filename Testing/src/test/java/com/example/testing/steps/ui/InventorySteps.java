@@ -1,14 +1,11 @@
-package com.example.ui_testing.steps.ui;
+package com.example.testing.steps.ui;
 
-import com.example.ui_testing.pages.InventoryPage;
-import com.example.ui_testing.pages.LoginPage;
+import com.example.testing.pages.InventoryPage;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.thucydides.core.annotations.Steps;
 import org.junit.Assert;
 import net.serenitybdd.core.steps.ScenarioActor;
-import net.thucydides.core.annotations.Step;
-import java.util.List;
 
 public class InventorySteps extends ScenarioActor {
 
