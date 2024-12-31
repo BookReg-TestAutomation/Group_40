@@ -2,11 +2,6 @@ package com.example.testing.steps.api;
 
 import io.cucumber.java.en.Given;
 import com.example.testing.utils.ApiTestContext;
-import io.cucumber.java.en.Then;
-import io.restassured.response.Response;
-import net.thucydides.core.annotations.Steps;
-
-import static org.junit.Assert.assertEquals;
 
 public class CommonSteps {
 

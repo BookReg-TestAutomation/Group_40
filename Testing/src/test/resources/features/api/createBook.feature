@@ -36,3 +36,5 @@ Feature: Create Book API
       | author       | Special @#$%    |
     Then the response status code is 400
     And the response should correctly include special characters
+
+
