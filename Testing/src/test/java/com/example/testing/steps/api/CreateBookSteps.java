@@ -103,6 +103,12 @@ public class CreateBookSteps {
         String actualValue = response.jsonPath().getString(field);
         assertEquals(value, actualValue);
     }
+
+    @Then("the response should contain {string} error message for duplicate ID")
+    public void theResponseShouldContainErrorMessageForDuplicateId(String errorMessage) {
+        String actualMessage = response.jsonPath().getString("error");
+        assertEquals(errorMessage, actualMessage);
+    }
 }
 
 
