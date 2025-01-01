@@ -46,3 +46,14 @@ Feature: Create Book API
     Then the response status code is 201
     And the response should contain "title" with value "Test Book by User"
     And the response should contain "author" with value "User Author"
+
+  # Scenario: Duplicate ID Handling
+  Scenario: Duplicate ID Handling
+    Given I am authenticated as "admin" with password "password"
+    And I create a book with id 6
+    When I send another POST request to "/api/books" with the same id:
+      | id    | 1     |
+      | title | Book2 |
+      | author| Author2 |
+    Then the response status code is 409
+    And the response should contain "Book Already Exists" error message
