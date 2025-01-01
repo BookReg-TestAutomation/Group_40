@@ -37,4 +37,12 @@ Feature: Create Book API
     Then the response status code is 400
     And the response should correctly include special characters
 
-
+  # Scenario: Successfully Create a Book as Regular User
+  Scenario: Successfully Create a Book as Regular User
+    Given I am authenticated as "user" with password "password"
+    When I send a POST request to "/api/books" with the following data:
+      | title        | Test Book by User  |
+      | author       | User Author        |
+    Then the response status code is 201
+    And the response should contain "title" with value "Test Book by User"
+    And the response should contain "author" with value "User Author"
