@@ -57,3 +57,13 @@ Feature: Create Book API
       | author| Author2 |
     Then the response status code is 409
     And the response should contain "Book Already Exists" error message
+
+ # Scenario: Successfully Create a Book as Admin User
+  Scenario: Successfully Create a Book as Admin User
+    Given I am authenticated as "admin" with password "password"
+    When I send a POST request to "/api/books" with the following data:
+      | title        | Test Book by Admin |
+      | author       | Admin Author       |
+    Then the response status code is 201
+    And the response should contain "title" with value "Test Book by Admin"
+    And the response should contain "author" with value "Admin Author"
