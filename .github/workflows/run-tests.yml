@@ -22,13 +22,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Step 3: Start the backend service
-      - name: Start Backend Service
-        run: |
-          nohup java -jar libs/demo-0.0.1-SNAPSHOT.jar &
+      # Step 3: Navigate to the Testing directory
+      - name: Navigate to Testing Directory
+        working-directory: Testing
+        run: pwd
 
-      # Step 4: Wait for the backend service to start
+      # Step 4: Start the backend service
+      - name: Start Backend Service
+        working-directory: Testing
+        run: |
+          nohup java -jar lib/demo-0.0.1-SNAPSHOT.jar &
+
+      # Step 5: Wait for the backend service to start
       - name: Wait for Backend
+        working-directory: Testing
         run: |
           for i in {1..10}; do
             nc -zv localhost 7081 && echo "Backend is up!" && break
@@ -36,16 +43,17 @@ jobs:
             sleep 5
           done
 
-      # Step 5: Run Serenity BDD API Tests
+      # Step 6: Run Serenity BDD API Tests
       - name: Run Serenity API Tests
+        working-directory: Testing
         run: |
           mkdir -p target/site/serenity
           mvn clean verify -Dtest="ApiTestRunner" -Dserenity.outputDirectory=target/site/serenity
-      
 
-      # Step 6: Save Serenity BDD Results as Artifacts
+      # Step 7: Save Serenity BDD Results as Artifacts
       - name: Archive Serenity API Results
         if: always()
+        working-directory: Testing
         uses: actions/upload-artifact@v3
         with:
           name: serenity-results-api
@@ -66,23 +74,32 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Step 3: Install Chrome and WebDriver
+      # Step 3: Navigate to the Testing directory
+      - name: Navigate to Testing Directory
+        working-directory: Testing
+        run: pwd
+
+      # Step 4: Install Chrome and WebDriver
       - name: Install Chrome
+        working-directory: Testing
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
 
-      # Step 4: Run Serenity BDD UI Tests
+      # Step 5: Run Serenity BDD UI Tests
       - name: Run Serenity UI Tests
+        working-directory: Testing
         run: |
           mkdir -p target/site/serenity
           mvn clean verify -Dtest="UITestRunner" -Dserenity.outputDirectory=target/site/serenity
 
-      # Step 5: Save Serenity BDD Results as Artifacts
+      # Step 6: Save Serenity BDD Results as Artifacts
       - name: Archive Serenity UI Results
         if: always()
+        working-directory: Testing
         uses: actions/upload-artifact@v3
         with:
           name: serenity-results-ui
           path: target/site/serenity
+
