@@ -97,6 +97,12 @@ public class CreateBookSteps {
         String author = response.jsonPath().getString("author");
         assertTrue(author.matches(".*[!@#$%^&*].*"));
     }
+
+    @Then("the response should contain {string} with value {string}")
+    public void theResponseShouldContainWithValue(String field, String value) {
+        String actualValue = response.jsonPath().getString(field);
+        assertEquals(value, actualValue);
+    }
 }
 
 
