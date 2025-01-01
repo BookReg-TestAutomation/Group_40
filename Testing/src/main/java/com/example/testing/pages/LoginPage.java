@@ -1,4 +1,4 @@
-package com.example.ui_testing.pages;
+package com.example.testing.pages;
 
 import net.serenitybdd.core.pages.PageObject;
 import net.thucydides.core.annotations.DefaultUrl;

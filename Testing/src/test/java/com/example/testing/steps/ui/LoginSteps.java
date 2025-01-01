@@ -1,6 +1,6 @@
-package com.example.ui_testing.steps.ui;
+package com.example.testing.steps.ui;
 
-import com.example.ui_testing.pages.LoginPage;
+import com.example.testing.pages.LoginPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
