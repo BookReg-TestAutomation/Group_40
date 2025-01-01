@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -23,26 +22,14 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Starter -->
+        <!-- Jackson for JSON processing -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.3</version>
         </dependency>
 
-        <!-- Spring Boot Testing with Exclusion -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.cucumber</groupId>
-                    <artifactId>cucumber-spring</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Serenity BDD -->
+        <!-- Serenity Core -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-core</artifactId>
@@ -56,10 +43,11 @@
             <version>${serenity.version}</version>
         </dependency>
 
+        <!-- Serenity Rest-Assured -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-rest-assured</artifactId>
+            <version>${serenity.version}</version>
         </dependency>
 
         <!-- Serenity Cucumber -->
@@ -69,28 +57,10 @@
             <version>${serenity.version}</version>
         </dependency>
 
+        <!-- Serenity Ensure -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-ensure</artifactId>
-            <version>${serenity.version}</version>
-        </dependency>
-
-        <!-- Cucumber -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-
-        <!-- Serenity Reports -->
-        <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-report-resources</artifactId>
             <version>${serenity.version}</version>
         </dependency>
 
@@ -107,16 +77,15 @@
             <artifactId>webdrivermanager</artifactId>
             <version>5.6.2</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <!-- Serenity Maven Plugin -->
             <plugin>
                 <groupId>net.serenity-bdd.maven.plugins</groupId>
@@ -145,5 +114,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
