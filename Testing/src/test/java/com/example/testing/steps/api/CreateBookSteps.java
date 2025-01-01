@@ -7,7 +7,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import net.thucydides.core.annotations.Steps;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,14 +29,6 @@ public class CreateBookSteps {
     public void checkResponseStatusCode(int expectedStatusCode) {
         assertEquals(expectedStatusCode, response.getStatusCode());
     }
-
-//    @Then("the response should contain {string} with value {string} and {string} with value {string}")
-//    public void theResponseShouldContainWithValueAndWithValue(String field1, String value1, String field2, String value2) {
-//        String actualValue1 = response.jsonPath().getString(field1);
-//        String actualValue2 = response.jsonPath().getString(field2);
-//        assertEquals(value1, actualValue1);
-//        assertEquals(value2, actualValue2);
-//    }
 
     // Scenarios for Invalid Inputs
     @When("I send a POST request to {string} with title null and an author {string}")
@@ -69,15 +61,14 @@ public class CreateBookSteps {
     @Then("the response should contain {string} error message")
     public void theResponseShouldContainErrorMessage(String errorMessage) {
         String responseBody = response.getBody().asString();
-
+        System.out.println(responseBody);
         if (responseBody == null || responseBody.isEmpty()) {
             throw new AssertionError("Response body is empty or null");
         }
 
         // Attempt to extract the error message from the JSON response
         try {
-            String actualMessage = response.jsonPath().getString("error");
-            assertEquals(errorMessage, actualMessage);
+            assertEquals(errorMessage, responseBody);
         } catch (Exception e) {
             throw new AssertionError("Error message not found or invalid JSON format: " + e.getMessage());
         }
@@ -107,3 +98,5 @@ public class CreateBookSteps {
         assertTrue(author.matches(".*[!@#$%^&*].*"));
     }
 }
+
+
