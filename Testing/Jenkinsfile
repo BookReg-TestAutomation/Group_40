@@ -30,7 +30,7 @@ pipeline {
                                 error 'UI Test Runner not found'
                             }
 
-                            bat 'mvn clean test -Dtest=com.example.testing.runners.UITestRunner'
+                            bat 'mvn clean test -Dtest=com.example.testing.runners.UITest'
                         }
                     }
                 }

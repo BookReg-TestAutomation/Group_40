@@ -1,19 +1,25 @@
 package com.example.testing.utils;
 
+import io.cucumber.java.en.Then;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import lombok.Getter;
 import net.thucydides.core.annotations.Step;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class ApiTestContext {
 
     private static ApiTestContext instance;
 
     private String baseUrl;
+    @Getter
     private String username;
+    @Getter
     private String password;
 
     private ApiTestContext() { }
@@ -35,12 +41,10 @@ public class ApiTestContext {
     public void setBasicAuth(String username, String password) {
         this.username = username;
         this.password = password;
-        System.out.println("Username and password from ApiContext SetBasicAuth " + username + " " + password+" "+baseUrl);
     }
 
     @Step("Send GET request to {0}")
     public Response sendGetRequest(String endpoint) {
-        System.out.println("Username and password from ApiContext sendGetReq " + username + " " + password+" "+baseUrl);
         RequestSpecification request = RestAssured.given()
                 .auth()
                 .basic(username, password)
@@ -136,6 +140,11 @@ public class ApiTestContext {
                 .body(requestData)
                 .when()
                 .put("/api/books/" + id);
+    @Step("the response status code should be {int}")
+    public void theResponseStatusCodeShouldBe(int expectedStatusCode,Response response) {
+        System.out.println("Response " + response);
+        System.out.println("  ");
+        assertEquals(expectedStatusCode, response.getStatusCode());
     }
 
 }
