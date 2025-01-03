@@ -15,12 +15,10 @@ public class UpdateBookSteps {
     private final ApiTestContext apiContext = ApiTestContext.getInstance();
 
     @When("I send a PUT request to {string} with the following data:")
-    public void iSendAPutRequestWithData(String endpoint, DataTable dataTable) {
-        Map<String, String> requestData = new HashMap<>();
-        dataTable.asMap().forEach(requestData::put);
-        String urlId = endpoint.substring(endpoint.lastIndexOf('/') + 1);
-        response = apiContext.sendPutRequest(urlId, requestData);
-        CreateBookSteps.setResponse(response);
+    public void iSendAPUTRequestToWithTheFollowingData(String endpoint, DataTable table) {
+        Map<String, String> bookData = table.asMap(String.class, String.class);
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendPutRequest(endpoint, bookData);
     }
 
     @Then("the error message should be {string}")
