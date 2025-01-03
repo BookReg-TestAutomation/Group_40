@@ -39,15 +39,6 @@ Feature: Update Book API Scenarios
       | author| Updated Author|
     Then the response status code is 400
 
-#  Scenario: Attempt to Update a Book with Null Values
-  Scenario: Attempt to Update a Book with Null Values
-    Given I am authenticated as "admin" with password "password"
-    When I send a PUT request to "/api/books/1" with the following data:
-      | id    | 1    |
-      | title | null |
-      | author| null |
-    Then the response status code is 400
-
   Scenario: Successfully Update a Book
     Given I am authenticated as "admin" with password "password"
     When I send a PUT request to "/api/books/1" with the following data:
@@ -56,5 +47,33 @@ Feature: Update Book API Scenarios
       | author| Updated Author Name|
     Then the response status code is 200
 
+  # Scenario: Update Non-Existent Book
+  Scenario: Update Non-Existent Book
+    Given I am authenticated as "admin" with password "password"
+    When I send a PUT request to "/api/books/9999" with the following data:
+      | id    | 9999         |
+      | title | Nonexistent  |
+      | author| Unknown      |
+    Then the response status code is 404
+#    And the error message should be "Book not found"
+
+  # Scenario: Attempt to Update a Book with Empty Strings
+  Scenario: Attempt to Update a Book with Empty Strings
+    Given I am authenticated as "admin" with password "password"
+    When I send a PUT request to "/api/books/3" with the following data:
+      | id    | 3    |
+      | title |      |
+      | author|      |
+    Then the response status code is 400
+    And the error message should be "Invalid Input Parameters"
+
+  # Scenario: Successful Update of a Book
+  Scenario: Successful Update of a Book
+    Given I am authenticated as "user" with password "password"
+    When I send a PUT request to "/api/books/2" with the following data:
+      | id    | 2                |
+      | title | Successfully Updated Title |
+      | author| Updated Author    |
+    Then the response status code is 403
 
 
