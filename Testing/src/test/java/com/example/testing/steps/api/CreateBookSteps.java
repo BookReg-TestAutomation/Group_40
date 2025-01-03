@@ -17,12 +17,6 @@ public class CreateBookSteps {
 
     private Response response;
 
-    private static Response sharedResponse;
-
-    public static void setResponse(Response response) {
-        sharedResponse = response;
-    }
-
     // Scenarios related to Creating a Book
 
     @When("I send a POST request to {string} with the following data:")
@@ -31,15 +25,10 @@ public class CreateBookSteps {
         response = apiContext.sendPostRequest(endpoint, bookData);
     }
 
-//    @Then("the response status code is {int}")
-//    public void checkResponseStatusCode(int expectedStatusCode) {
-//        assertEquals(expectedStatusCode, response.getStatusCode());
-//    }
-
-    @Then("the response status code is {int}")
+    @Then("the response status code should {int}")
     public void checkResponseStatusCode(int expectedStatusCode) {
-        Response responseToCheck = response != null ? response : sharedResponse;
-        assertEquals(expectedStatusCode, responseToCheck.getStatusCode());
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        apiContext.theResponseStatusCodeShouldBe(expectedStatusCode,response);
     }
 
     // Scenarios for Invalid Inputs
@@ -110,5 +99,4 @@ public class CreateBookSteps {
         assertTrue(author.matches(".*[!@#$%^&*].*"));
     }
 }
-
 

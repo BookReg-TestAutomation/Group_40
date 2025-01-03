@@ -46,6 +46,9 @@ public class InventoryPage extends PageObject {
                 .collect(Collectors.toList());
     }
 
+     @FindBy(css = ".shopping_cart_badge")
+    private WebElementFacade cartBadge;
+
     public void addItemToCart(String itemName) {
         findBy("//div[text()='" + itemName + "']/ancestor::div[@class='inventory_item']//button[text()='Add to cart']")
                 .waitUntilVisible()
