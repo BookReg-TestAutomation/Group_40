@@ -44,8 +44,8 @@ Feature: Update Book API Scenarios
     Given I am authenticated as "admin" with password "password"
     When I send a PUT request to "/api/books/2" with the following data:
       | id    | 2   |
-      | title | null |
-      | author| null |
+      | title | "" |
+      | author| "" |
     Then the response status code is 400
 
   Scenario: Successfully Update a Book
