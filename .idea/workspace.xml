@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="addf14b8-7d2d-46b1-a722-ce7ab10c6a7c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Testing/src/test/java/com/example/testing/steps/api/CreateBookSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/src/test/java/com/example/testing/steps/api/CreateBookSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Testing/src/test/java/com/example/testing/utils/ApiTestContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/src/test/java/com/example/testing/utils/ApiTestContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Testing/src/test/resources/features/api/getAllBooks.feature" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/src/test/resources/features/api/getAllBooks.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Testing/src/test/java/com/example/testing/steps/api/GetAllBooksSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/src/test/java/com/example/testing/steps/api/GetAllBooksSteps.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
