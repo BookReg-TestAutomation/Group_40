@@ -12,37 +12,38 @@ import java.util.stream.Collectors;
 
 public class InventoryPage extends PageObject {
 
-    @FindBy(css = ".inventory_item")
-    private List<WebElementFacade> itemsList;
-
-    @FindBy(css = ".product_sort_container")
-    private WebElementFacade sortingDropdown;
-
     @FindBy(css = ".shopping_cart_badge")
     private WebElementFacade cartBadge;
 
+    @FindBy(css = ".product_sort_container")
+    private WebElementFacade sortDropdown;
+
+    @FindBy(css = ".inventory_item_name")
+    private List<WebElementFacade> productNames;
+
     @FindBy(css = ".inventory_item_price")
-    private List<WebElementFacade> itemPrices;
+    private List<WebElementFacade> productPrices;
 
-    public boolean isItemsListDisplayed() {
-        return !itemsList.isEmpty() && itemsList.get(0).isVisible();
+    public void clickSortDropdown() {
+        sortDropdown.waitUntilVisible().click();
     }
 
-    public void selectSortingOption(String option) {
-        element(sortingDropdown).waitUntilVisible().selectByVisibleText(option);
+    public void selectSortOption(String option) {
+        sortDropdown.selectByVisibleText(option);
+        waitABit(500); // Wait for sort to complete
     }
 
-    public boolean areItemsSortedByPriceAscending() {
-        List<Double> prices = itemPrices.stream()
-                .map(element -> Double.parseDouble(element.getText().replace("$", "")))
+    public List<String> getProductNames() {
+        return productNames.stream()
+                .map(WebElementFacade::getText)
                 .collect(Collectors.toList());
+    }
 
-        for (int i = 0; i < prices.size() - 1; i++) {
-            if (prices.get(i) > prices.get(i + 1)) {
-                return false;
-            }
-        }
-        return true;
+    public List<Double> getProductPrices() {
+        return productPrices.stream()
+                .map(element -> element.getText().replace("$", ""))
+                .map(Double::parseDouble)
+                .collect(Collectors.toList());
     }
 
     public void addItemToCart(String itemName) {
