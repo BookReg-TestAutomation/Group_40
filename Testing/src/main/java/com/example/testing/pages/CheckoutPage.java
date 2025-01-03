@@ -39,7 +39,7 @@ public class CheckoutPage extends PageObject {
         zipCodeField.type(zipCode);  // Set the Zip/Postal Code field value
     }
 
-    // Function to submit the form
+    // Function to submit form
     public void submitForm() {
         submitButton.click();  // Click the submit button
     }
