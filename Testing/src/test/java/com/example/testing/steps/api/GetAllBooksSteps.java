@@ -54,7 +54,8 @@ public class GetAllBooksSteps {
 
     @Then("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode) {
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        apiContext.theResponseStatusCodeShouldBe(expectedStatusCode,response);
     }
 
     @Then("the response should contain a list of books")
