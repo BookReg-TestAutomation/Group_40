@@ -25,9 +25,10 @@ public class CreateBookSteps {
         response = apiContext.sendPostRequest(endpoint, bookData);
     }
 
-    @Then("the response status code is {int}")
+    @Then("the response status code should {int}")
     public void checkResponseStatusCode(int expectedStatusCode) {
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        apiContext.theResponseStatusCodeShouldBe(expectedStatusCode,response);
     }
 
     // Scenarios for Invalid Inputs
@@ -110,5 +111,4 @@ public class CreateBookSteps {
         assertEquals(errorMessage, actualMessage);
     }
 }
-
 

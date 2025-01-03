@@ -1,4 +1,3 @@
-@cart
 Feature: Cart Page Functionality
 
   Background:
