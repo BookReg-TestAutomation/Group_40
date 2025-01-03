@@ -12,8 +12,6 @@ import com.example.testing.utils.ApiTestContext;
 
 public class GetAllBooksSteps {
 
-//    @Steps
-//    private ApiTestContext apiContext;
     private CommonSteps commonSteps;
     private Response response;
 
