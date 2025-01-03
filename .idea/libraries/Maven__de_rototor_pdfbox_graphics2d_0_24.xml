@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: de.rototor.pdfbox:graphics2d:0.24" type="java-imported" external-system-id="Maven">
+    <properties groupId="de.rototor.pdfbox" artifactId="graphics2d" version="0.24" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/rototor/pdfbox/graphics2d/0.24/graphics2d-0.24.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/de/rototor/pdfbox/graphics2d/0.24/graphics2d-0.24-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/rototor/pdfbox/graphics2d/0.24/graphics2d-0.24-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
