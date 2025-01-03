@@ -21,4 +21,3 @@ Feature: Get All Books API
   Scenario: Attempt to retrieve books without authentication
     When I send a GET request to "/api/books" without authentication
     Then the response status code should be 401
-
