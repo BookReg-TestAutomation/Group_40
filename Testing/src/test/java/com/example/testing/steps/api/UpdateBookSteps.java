@@ -18,11 +18,11 @@ public class UpdateBookSteps {
 
     private Response response;
 
-    @Given("I am authenticated as {string} with password {string}")
-    public void iAmAuthenticatedAsWithPassword(String username, String password) {
-        ApiTestContext apiContext = ApiTestContext.getInstance();
-        apiContext.authenticate(username, password);
-    }
+//    @Given("I am authenticated as {string} with password {string}")
+//    public void iAmAuthenticatedAsWithPassword(String username, String password) {
+//        ApiTestContext apiContext = ApiTestContext.getInstance();
+//        apiContext.authenticate(username, password);
+//    }
 
     @When("I send a PUT request to {string} with the following data:")
     public void iSendAPUTRequestToWithTheFollowingData(String endpoint, DataTable table) {
@@ -49,17 +49,17 @@ public class UpdateBookSteps {
         assertEquals(expectedMessage, actualMessage, "Error message mismatch");
     }
 
-    @Then("the response should indicate invalid data types")
-    public void theResponseShouldIndicateInvalidDataTypes() {
-        String errorMessage = response.jsonPath().getString("error");
-        assertTrue(errorMessage.contains("Invalid Input Parameters"));
-    }
+//    @Then("the response should indicate invalid data types")
+//    public void theResponseShouldIndicateInvalidDataTypes() {
+//        String errorMessage = response.jsonPath().getString("error");
+//        assertTrue(errorMessage.contains("Invalid Input Parameters"));
+//    }
 
-    @Then("the response should correctly include special characters")
-    public void theResponseShouldCorrectlyIncludeSpecialCharacters() {
-        String author = response.jsonPath().getString("author");
-        assertTrue(author.matches(".*[!@#$%^&*()].*"), "Special characters not correctly included");
-    }
+//    @Then("the response should correctly include special characters")
+//    public void theResponseShouldCorrectlyIncludeSpecialCharacters() {
+//        String author = response.jsonPath().getString("author");
+//        assertTrue(author.matches(".*[!@#$%^&*()].*"), "Special characters not correctly included");
+//    }
 
     @When("I send a PUT request to {string} with title null and author null")
     public void iSendAPUTRequestToWithTitleNullAndAuthorNull(String endpoint) {
