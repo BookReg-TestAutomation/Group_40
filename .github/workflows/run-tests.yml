@@ -47,58 +47,12 @@ jobs:
       - name: Run Serenity API Tests
         working-directory: Testing
         run: |
-          mkdir -p target/site/serenity
-          mvn clean verify -Dtest="ApiTestRunner" -Dserenity.outputDirectory=target/site/serenity
+          mvn clean verify 
 
       # Step 7: Save Serenity BDD Results as Artifacts
       - name: Archive Serenity API Results
         if: always()
-        working-directory: Testing
         uses: actions/upload-artifact@v3
         with:
           name: serenity-results-api
-          path: target/site/serenity
-
-  run-ui-tests:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: Checkout the code
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      # Step 2: Set up Java environment
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      # Step 3: Navigate to the Testing directory
-      - name: Navigate to Testing Directory
-        working-directory: Testing
-        run: pwd
-
-      # Step 4: Install Chrome and WebDriver
-      - name: Install Chrome
-        working-directory: Testing
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          google-chrome --version
-
-      # Step 5: Run Serenity BDD UI Tests
-      - name: Run Serenity UI Tests
-        working-directory: Testing
-        run: |
-          mkdir -p target/site/serenity
-          mvn clean verify -Dtest="UITest"
-
-      # Step 6: Save Serenity BDD Results as Artifacts
-      - name: Archive Serenity UI Results
-        if: always()
-        working-directory: Testing
-        uses: actions/upload-artifact@v3
-        with:
-          name: serenity-results-ui
-          path: target/site/serenity
+          path: Testing/target/site/serenity
