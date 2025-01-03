@@ -15,6 +15,37 @@ public class InventoryPage extends PageObject {
      @FindBy(css = ".shopping_cart_badge")
     private WebElementFacade cartBadge;
 
+    @FindBy(css = ".product_sort_container")
+    private WebElementFacade sortDropdown;
+
+    @FindBy(css = ".inventory_item_name")
+    private List<WebElementFacade> productNames;
+
+    @FindBy(css = ".inventory_item_price")
+    private List<WebElementFacade> productPrices;
+
+    public void clickSortDropdown() {
+        sortDropdown.waitUntilVisible().click();
+    }
+
+    public void selectSortOption(String option) {
+        sortDropdown.selectByVisibleText(option);
+        waitABit(500); // Wait for sort to complete
+    }
+
+    public List<String> getProductNames() {
+        return productNames.stream()
+                .map(WebElementFacade::getText)
+                .collect(Collectors.toList());
+    }
+
+    public List<Double> getProductPrices() {
+        return productPrices.stream()
+                .map(element -> element.getText().replace("$", ""))
+                .map(Double::parseDouble)
+                .collect(Collectors.toList());
+    }
+
     public void addItemToCart(String itemName) {
         findBy("//div[text()='" + itemName + "']/ancestor::div[@class='inventory_item']//button[text()='Add to cart']")
                 .waitUntilVisible()
