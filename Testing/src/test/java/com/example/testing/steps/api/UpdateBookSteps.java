@@ -44,7 +44,7 @@ public class UpdateBookSteps {
         String actualMessage = response.jsonPath().getString("message");
         assertEquals(expectedMessage, actualMessage, "Error message mismatch");
     }
-    
+
 
     @When("I send a PUT request to {string} with title null and author null")
     public void iSendAPUTRequestToWithTitleNullAndAuthorNull(String endpoint) {
