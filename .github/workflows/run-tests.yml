@@ -48,12 +48,7 @@ jobs:
         working-directory: Testing
         run: |
           mkdir -p target/site/serenity
-<<<<<<<< HEAD:.github/workflows/run-tests.yml
-          mvn clean verify
-      
-========
           mvn clean verify -Dtest="ApiTestRunner" -Dserenity.outputDirectory=target/site/serenity
->>>>>>>> 43d4c73e9fd4ea2fd3fcea6a4424fc82b4e3f574:.github/workflows/main.yml
 
       # Step 7: Save Serenity BDD Results as Artifacts
       - name: Archive Serenity API Results
