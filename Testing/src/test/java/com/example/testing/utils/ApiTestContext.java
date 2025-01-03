@@ -122,7 +122,8 @@ public class ApiTestContext {
                 .auth().basic(username, password)  // Basic Authentication
                 .contentType("application/json")
                 .when()
-                .delete(endpoint+id);
+                .delete(endpoint + id);
+    }
     @Step("Get book by ID {0}")
     public Response getBookById(String id) {
         return RestAssured.given()
