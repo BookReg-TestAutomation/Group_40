@@ -12,6 +12,49 @@ import com.example.testing.utils.ApiTestContext;
 
 public class GetAllBooksSteps {
 
+    private CommonSteps commonSteps;
+    private Response response;
+
+//    @Given("the library system is running at {string}")
+//    public void theLibrarySystemIsRunningAt(String baseUrl) {
+//        apiContext.setBaseUrl(baseUrl);
+//    }
+//
+//    @Given("I am authenticated as {string} with password {string}")
+//    public void iAmAuthenticatedAsWithPassword(String username, String password) {
+//        apiContext.setBasicAuth(username, password);
+//    }
+
+    @Given("there are books in the system")
+    public void thereAreBooksInTheSystem() {
+        String bookPayload = """
+            {
+                "title": "Test Book",
+                "author": "Test Author"
+            }
+            """;
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        apiContext.createBook(bookPayload);
+    }
+
+    @When("I send a GET request to {string}")
+    public void iSendAGETRequestTo(String endpoint) {
+        System.out.println("Inside the GetAllBooks step file");
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendGetRequest(endpoint);
+    }
+
+    @When("I send a GET request to {string} without authentication")
+    public void iSendAGETRequestToWithoutAuthentication(String endpoint) {
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        response = apiContext.sendGetRequestWithoutAuth(endpoint);
+    }
+
+    @Then("the response status code should be {int}")
+    public void theResponseStatusCodeShouldBe(int expectedStatusCode) {
+        assertEquals(expectedStatusCode, response.getStatusCode());
+    }
+
     @Then("the response should contain a list of books")
     public void theResponseShouldContainAListOfBooks() {
         Response response = CommonSteps.getResponse();
