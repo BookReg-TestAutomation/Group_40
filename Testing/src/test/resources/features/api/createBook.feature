@@ -37,4 +37,3 @@ Feature: Create Book API
     Then the response status code should 400
     And the response should correctly include special characters
 
-
