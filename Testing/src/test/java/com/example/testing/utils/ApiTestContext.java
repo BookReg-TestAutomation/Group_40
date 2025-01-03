@@ -140,6 +140,7 @@ public class ApiTestContext {
                 .body(requestData)
                 .when()
                 .put("/api/books/" + id);
+    }
     @Step("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode,Response response) {
         System.out.println("Response " + response);
