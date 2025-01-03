@@ -124,6 +124,23 @@ public class ApiTestContext {
                 .post(endpoint);
     }
 
+    @Step("Get book by ID {0}")
+    public Response getBookById(String id) {
+        return RestAssured.given()
+                .auth()
+                .basic(username, password)
+                .header("Content-Type", "application/json")
+                .get("/api/books/" + id);
+    }
+    @Step("Send PUT request to {0} with request body {1}")
+    public Response sendPutRequest(String id, Map<String, String> requestData) {
+        return RestAssured.given()
+                .auth().basic(username, password)  // Basic Authentication
+                .contentType("application/json")
+                .body(requestData)
+                .when()
+                .put("/api/books/" + id);
+    }
     @Step("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode,Response response) {
         System.out.println("Response " + response);
