@@ -39,13 +39,13 @@ Feature: Update Book API Scenarios
       | author| Updated Author|
     Then the response status code is 400
 
-#  Scenario: Attempt to Update a Book with Null Values
+#  Scenario: Attempt to Update a Book with "" Values
   Scenario: Attempt to Update a Book with Null Values
     Given I am authenticated as "admin" with password "password"
-    When I send a PUT request to "/api/books/1" with the following data:
-      | id    | 1    |
-      | title | null |
-      | author| null |
+    When I send a PUT request to "/api/books/2" with the following data:
+      | id    | 2   |
+      | title | "" |
+      | author| "" |
     Then the response status code is 400
 
   Scenario: Successfully Update a Book
