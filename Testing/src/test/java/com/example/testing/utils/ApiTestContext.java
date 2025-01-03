@@ -1,6 +1,7 @@
 package com.example.testing.utils;
 
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -10,6 +11,7 @@ import net.thucydides.core.annotations.Step;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
 public class ApiTestContext {
@@ -59,17 +61,6 @@ public class ApiTestContext {
                 .header("Content-Type", "application/json");
 
         return request.get(endpoint);
-    }
-
-    @Step("Create a book with payload {0}")
-    public Response createBook(String payload) {
-        RequestSpecification request = RestAssured.given()
-                .auth()
-                .basic(username, password)
-                .header("Content-Type", "application/json")
-                .body(payload);
-
-        return request.post("/api/books");
     }
 
     @Step("Send POST request to {0} with request body {1}")
@@ -124,6 +115,14 @@ public class ApiTestContext {
                 .post(endpoint);
     }
 
+    @Step("I send a DELETE request to {string} with it's id")
+    public Response sendDeleteRequestWithAuth(String endpoint,String id) {
+        ApiTestContext context = ApiTestContext.getInstance();
+        return given()
+                .auth().basic(username, password)  // Basic Authentication
+                .contentType("application/json")
+                .when()
+                .delete(endpoint+id);
     @Step("Get book by ID {0}")
     public Response getBookById(String id) {
         return RestAssured.given()
@@ -143,8 +142,6 @@ public class ApiTestContext {
     }
     @Step("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode,Response response) {
-        System.out.println("Response " + response);
-        System.out.println("  ");
         assertEquals(expectedStatusCode, response.getStatusCode());
     }
 

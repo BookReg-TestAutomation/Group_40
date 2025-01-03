@@ -11,17 +11,6 @@ import java.util.Map;
 import com.example.testing.utils.ApiTestContext;
 
 public class GetAllBooksSteps {
-    @Given("there are books in the system")
-    public void thereAreBooksInTheSystem() {
-        String bookPayload = """
-        {
-            "title": "Test Book",
-            "author": "Test Author"
-        }
-        """;
-        ApiTestContext apiContext = ApiTestContext.getInstance();
-        Response response = apiContext.createBook(bookPayload);
-    }
 
     @Then("the response should contain a list of books")
     public void theResponseShouldContainAListOfBooks() {
