@@ -34,5 +34,11 @@ Feature: Delete Book API
     Then the response status code is equal to 403
     And the response should contain "User is not permitted."
 
+    # Scenario: Data Type Validation for Id
+  Scenario: Data Type Validation for Id
+    Given I am authenticated as "admin" with password "password"
+    When I send a DELETE request to "/api/books/" with Id "abc123"
+    Then the response status code is equal to 405
+
 
 
