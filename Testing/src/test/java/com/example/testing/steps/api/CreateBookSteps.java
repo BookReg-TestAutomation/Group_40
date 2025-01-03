@@ -17,17 +17,16 @@ public class CreateBookSteps {
 
     private Response response;
 
-    // Scenarios related to Creating a Book
-
     @When("I send a POST request to {string} with the following data:")
     public void iSendAPostRequestToWithTheFollowingData(String endpoint, Map<String, String> bookData) {
         ApiTestContext apiContext = ApiTestContext.getInstance();
         response = apiContext.sendPostRequest(endpoint, bookData);
     }
 
-    @Then("the response status code is {int}")
+    @Then("the response status code should {int}")
     public void checkResponseStatusCode(int expectedStatusCode) {
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        ApiTestContext apiContext = ApiTestContext.getInstance();
+        apiContext.theResponseStatusCodeShouldBe(expectedStatusCode,response);
     }
 
     // Scenarios for Invalid Inputs
@@ -61,12 +60,9 @@ public class CreateBookSteps {
     @Then("the response should contain {string} error message")
     public void theResponseShouldContainErrorMessage(String errorMessage) {
         String responseBody = response.getBody().asString();
-        System.out.println(responseBody);
         if (responseBody == null || responseBody.isEmpty()) {
             throw new AssertionError("Response body is empty or null");
         }
-
-        // Attempt to extract the error message from the JSON response
         try {
             assertEquals(errorMessage, responseBody);
         } catch (Exception e) {
@@ -97,18 +93,5 @@ public class CreateBookSteps {
         String author = response.jsonPath().getString("author");
         assertTrue(author.matches(".*[!@#$%^&*].*"));
     }
-
-    @Then("the response should contain {string} with value {string}")
-    public void theResponseShouldContainWithValue(String field, String value) {
-        String actualValue = response.jsonPath().getString(field);
-        assertEquals(value, actualValue);
-    }
-
-    @Then("the response should contain {string} error message for duplicate ID")
-    public void theResponseShouldContainErrorMessageForDuplicateId(String errorMessage) {
-        String actualMessage = response.jsonPath().getString("error");
-        assertEquals(errorMessage, actualMessage);
-    }
 }
-
 

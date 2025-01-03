@@ -1,15 +1,15 @@
 package com.example.testing.utils;
 
+import net.thucydides.core.util.EnvironmentVariables;
+import net.thucydides.core.util.SystemEnvironmentVariables;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import net.thucydides.core.environment.SystemEnvironmentVariables;
-import net.thucydides.core.util.EnvironmentVariables;
-
 public class ApiConfig {
     private static final Properties properties = new Properties();
-    private static final EnvironmentVariables environmentVariables = SystemEnvironmentVariables.createEnvironmentVariables();
+    private static final EnvironmentVariables environmentVariables = new SystemEnvironmentVariables();
 
     static {
         try (InputStream input = ApiConfig.class.getClassLoader().getResourceAsStream("serenity.properties")) {
