@@ -130,5 +130,31 @@ public class ApiTestContext {
         System.out.println("  ");
         assertEquals(expectedStatusCode, response.getStatusCode());
     }
+    @Step("Send PUT request to {0} with request body {1}")
+    public Response sendPutRequest(String endpoint, Map<String,String> requestData) {
+        return RestAssured.given()
+                .auth().basic(username, password)  // Basic Authentication
+                .contentType("application/json")
+                .body(requestData)
+                .when()
+                .put(endpoint);
+    }
+
+    @Step("Send PUT request to {0} without authentication with request body {1}")
+    public Response sendPutRequestWithoutAuth(String endpoint, Map<String,String> requestData) {
+        return RestAssured.given()
+                .contentType("application/json")
+                .body(requestData)
+                .when()
+                .put(endpoint);
+    }
+    @Step("Authenticate with username: {0} and password: {1}")
+    public void authenticate(String username, String password) {
+        this.username = username;
+        this.password = password;
+        System.out.println("Authentication set with username: " + username + " and password: " + password);
+    }
+
+
 
 }
