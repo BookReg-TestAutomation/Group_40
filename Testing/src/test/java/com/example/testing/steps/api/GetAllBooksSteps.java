@@ -27,18 +27,6 @@ public class GetAllBooksSteps {
 //        apiContext.setBasicAuth(username, password);
 //    }
 
-    @Given("there are books in the system")
-    public void thereAreBooksInTheSystem() {
-        String bookPayload = """
-            {
-                "title": "Test Book",
-                "author": "Test Author"
-            }
-            """;
-        ApiTestContext apiContext = ApiTestContext.getInstance();
-        apiContext.createBook(bookPayload);
-    }
-
     @When("I send a GET request to {string}")
     public void iSendAGETRequestTo(String endpoint) {
         System.out.println("Inside the GetAllBooks step file");

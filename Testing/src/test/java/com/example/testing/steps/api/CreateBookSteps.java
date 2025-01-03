@@ -17,8 +17,6 @@ public class CreateBookSteps {
 
     private Response response;
 
-    // Scenarios related to Creating a Book
-
     @When("I send a POST request to {string} with the following data:")
     public void iSendAPostRequestToWithTheFollowingData(String endpoint, Map<String, String> bookData) {
         ApiTestContext apiContext = ApiTestContext.getInstance();
@@ -62,12 +60,9 @@ public class CreateBookSteps {
     @Then("the response should contain {string} error message")
     public void theResponseShouldContainErrorMessage(String errorMessage) {
         String responseBody = response.getBody().asString();
-        System.out.println(responseBody);
         if (responseBody == null || responseBody.isEmpty()) {
             throw new AssertionError("Response body is empty or null");
         }
-
-        // Attempt to extract the error message from the JSON response
         try {
             assertEquals(errorMessage, responseBody);
         } catch (Exception e) {

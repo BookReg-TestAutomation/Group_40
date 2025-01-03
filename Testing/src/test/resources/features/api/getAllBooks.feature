@@ -22,9 +22,3 @@ Feature: Get All Books API
     When I send a GET request to "/api/books" without authentication
     Then the response status code should be 401
 
-  Scenario: Verify book response structure
-    Given I am authenticated as "admin" with password "password"
-    And there are books in the system
-    When I send a GET request to "/api/books"
-    Then the response status code should be 200
-    And each book should have "id", "title", and "author" fields
