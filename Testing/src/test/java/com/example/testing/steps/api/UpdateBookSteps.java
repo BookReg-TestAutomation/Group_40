@@ -26,6 +26,7 @@ public class UpdateBookSteps {
         response = apiContext.sendPutRequest(endpoint, bookData);
     }
 
+
     @When("I send a PUT request to {string} without authentication with the following data:")
     public void iSendAPUTRequestToWithoutAuthenticationWithTheFollowingData(String endpoint, DataTable table) {
         Map<String, String> bookData = table.asMap(String.class, String.class);
@@ -43,12 +44,7 @@ public class UpdateBookSteps {
         String actualMessage = response.jsonPath().getString("message");
         assertEquals(expectedMessage, actualMessage, "Error message mismatch");
     }
-
-//    @Then("the response should indicate invalid data types")
-//    public void theResponseShouldIndicateInvalidDataTypes() {
-//        String errorMessage = response.jsonPath().getString("error");
-//        assertTrue(errorMessage.contains("Invalid Input Parameters"));
-//    }
+    
 
     @When("I send a PUT request to {string} with title null and author null")
     public void iSendAPUTRequestToWithTitleNullAndAuthorNull(String endpoint) {
