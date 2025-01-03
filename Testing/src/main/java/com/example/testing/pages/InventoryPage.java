@@ -12,38 +12,8 @@ import java.util.stream.Collectors;
 
 public class InventoryPage extends PageObject {
 
-    @FindBy(css = ".inventory_item")
-    private List<WebElementFacade> itemsList;
-
-    @FindBy(css = ".product_sort_container")
-    private WebElementFacade sortingDropdown;
-
-    @FindBy(css = ".shopping_cart_badge")
+     @FindBy(css = ".shopping_cart_badge")
     private WebElementFacade cartBadge;
-
-    @FindBy(css = ".inventory_item_price")
-    private List<WebElementFacade> itemPrices;
-
-    public boolean isItemsListDisplayed() {
-        return !itemsList.isEmpty() && itemsList.get(0).isVisible();
-    }
-
-    public void selectSortingOption(String option) {
-        element(sortingDropdown).waitUntilVisible().selectByVisibleText(option);
-    }
-
-    public boolean areItemsSortedByPriceAscending() {
-        List<Double> prices = itemPrices.stream()
-                .map(element -> Double.parseDouble(element.getText().replace("$", "")))
-                .collect(Collectors.toList());
-
-        for (int i = 0; i < prices.size() - 1; i++) {
-            if (prices.get(i) > prices.get(i + 1)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     public void addItemToCart(String itemName) {
         findBy("//div[text()='" + itemName + "']/ancestor::div[@class='inventory_item']//button[text()='Add to cart']")
