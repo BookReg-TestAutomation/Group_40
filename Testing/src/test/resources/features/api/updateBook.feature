@@ -48,5 +48,13 @@ Feature: Update Book API Scenarios
       | author| null |
     Then the response status code is 400
 
+  Scenario: Successfully Update a Book
+    Given I am authenticated as "admin" with password "password"
+    When I send a PUT request to "/api/books/1" with the following data:
+      | id    | 1                  |
+      | title | Updated Book Title |
+      | author| Updated Author Name|
+    Then the response status code is 200
+
 
 
