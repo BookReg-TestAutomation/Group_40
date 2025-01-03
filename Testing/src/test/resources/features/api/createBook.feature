@@ -37,4 +37,33 @@ Feature: Create Book API
     Then the response status code should 400
     And the response should correctly include special characters
 
+  # Scenario: Successfully Create a Book as Regular User
+  Scenario: Successfully Create a Book as Regular User
+    Given I am authenticated as "user" with password "password"
+    When I send a POST request to "/api/books" with the following data:
+      | title        | Test Book by User  |
+      | author       | User Author        |
+    Then the response status code is 201
+    And the response should contain "title" with value "Test Book by User"
+    And the response should contain "author" with value "User Author"
 
+  # Scenario: Duplicate ID Handling
+  Scenario: Duplicate ID Handling
+    Given I am authenticated as "admin" with password "password"
+    And I create a book with id 6
+    When I send another POST request to "/api/books" with the same id:
+      | id    | 1     |
+      | title | Book2 |
+      | author| Author2 |
+    Then the response status code is 409
+    And the response should contain "Book Already Exists" error message
+
+ # Scenario: Successfully Create a Book as Admin User
+  Scenario: Successfully Create a Book as Admin User
+    Given I am authenticated as "admin" with password "password"
+    When I send a POST request to "/api/books" with the following data:
+      | title        | Test Book by Admin |
+      | author       | Admin Author       |
+    Then the response status code is 201
+    And the response should contain "title" with value "Test Book by Admin"
+    And the response should contain "author" with value "Admin Author"
