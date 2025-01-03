@@ -1,13 +1,71 @@
+#name: Run Tests
+#
+#on:
+#  push:
+#    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
+#
+#jobs:
+#  run-api-tests:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      # Step 1: Checkout the code
+#      - name: Checkout Code
+#        uses: actions/checkout@v3
+#
+#      # Step 2: Set up Java environment
+#      - name: Set up Java
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'temurin'
+#          java-version: '21'
+#
+#      # Step 3: Navigate to the Testing directory
+#      - name: Navigate to Testing Directory
+#        working-directory: Testing
+#        run: pwd
+#
+#      # Step 4: Start the backend service
+#      - name: Start Backend Service
+#        working-directory: Testing
+#        run: |
+#          nohup java -jar lib/demo-0.0.1-SNAPSHOT.jar &
+#      # Step 5: Wait for the backend service to start
+#      - name: Wait for Backend
+#        working-directory: Testing
+#        run: |
+#          for i in {1..10}; do
+#            nc -zv localhost 7081 && echo "Backend is up!" && break
+#            echo "Waiting for backend..."
+#            sleep 5
+#          done
+#      # Step 6: Run Serenity BDD API Tests
+#      - name: Run Serenity Tests
+#        working-directory: Testing
+#        run: |
+#          mvn clean verify
+#
+#      # Step 7: Save Serenity BDD Results as Artifacts
+#      - name: Archive Serenity API Results
+#        if: always()
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: serenity-results-api
+#          path: Testing/target/site/serenity
+
+
 name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  run-api-tests:
+  run-ui-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,17 +80,24 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      # Step 3: Navigate to the Testing directory
+      # Step 3: Install Chrome and ChromeDriver
+      - name: Install Chrome and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable chromium-chromedriver
+
+      # Step 4: Navigate to Testing directory
       - name: Navigate to Testing Directory
         working-directory: Testing
         run: pwd
 
-      # Step 4: Start the backend service
+      # Step 5: Start the backend service
       - name: Start Backend Service
         working-directory: Testing
         run: |
           nohup java -jar lib/demo-0.0.1-SNAPSHOT.jar &
-      # Step 5: Wait for the backend service to start
+
+      # Step 6: Wait for the backend service to start
       - name: Wait for Backend
         working-directory: Testing
         run: |
@@ -41,15 +106,19 @@ jobs:
             echo "Waiting for backend..."
             sleep 5
           done
-      # Step 6: Run Serenity BDD API Tests
-      - name: Run Serenity API Tests
+
+      # Step 7: Run Serenity Tests
+      - name: Run Serenity Tests
         working-directory: Testing
+        env:
+          CHROME_OPTIONS: "--headless --disable-gpu --no-sandbox --disable-dev-shm-usage"
         run: |
-          mvn clean verify 
-      # Step 7: Save Serenity BDD Results as Artifacts
-      - name: Archive Serenity API Results
+          mvn clean verify
+
+      # Step 8: Save Serenity BDD Results as Artifacts
+      - name: Archive Serenity Results
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: serenity-results-api
+          name: serenity-results-ui
           path: Testing/target/site/serenity
