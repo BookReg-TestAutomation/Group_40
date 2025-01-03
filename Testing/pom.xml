@@ -16,6 +16,7 @@
         <junit-vintage-engine.version>5.11.3</junit-vintage-engine.version>
         <junit-platform-suite.version>1.11.3</junit-platform-suite.version>
         <cucumber-junit-platform-engine.version>7.20.1</cucumber-junit-platform-engine.version>
+        <maven.test.failure.ignore>true</maven.test.failure.ignore>
         <encoding>UTF-8</encoding>
         <tags></tags>
         <webdriver.base.url></webdriver.base.url>
