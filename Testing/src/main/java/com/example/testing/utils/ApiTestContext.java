@@ -120,5 +120,15 @@ public class ApiTestContext {
                 .post(endpoint);
     }
 
+    @Step("Send PUT request to {0} with request body {1}")
+    public Response sendPutRequest(String id, Map<String, String> requestData) {
+        return RestAssured.given()
+                .auth().basic(username, password)  // Basic Authentication
+                .contentType("application/json")
+                .body(requestData)
+                .when()
+                .put("/api/books/" + id);
+    }
+
 
 }
