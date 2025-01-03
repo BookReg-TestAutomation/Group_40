@@ -45,3 +45,13 @@ Feature: Update Book API
       | author| Updated Author    |
     Then the response status code is 200
     And the response should indicate success with a message "Book updated successfully"
+
+    # Scenario: Regular User Attempts to Update a Book
+  Scenario: Regular User Attempts to Update a Book
+    Given I am authenticated as "user" with password "password"
+    When I send a PUT request to "/api/books/4" with the following data:
+      | id    | 4                      |
+      | title | Updated Title by User  |
+      | author| User Updated Author    |
+    Then the response status code is 403
+    And the error message should be "User is not permitted."
