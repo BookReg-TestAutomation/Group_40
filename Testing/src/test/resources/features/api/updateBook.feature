@@ -55,7 +55,6 @@ Feature: Update Book API Scenarios
       | title | Nonexistent  |
       | author| Unknown      |
     Then the response status code is 404
-#    And the error message should be "Book not found"
 
   # Scenario: Attempt to Update a Book with Empty Strings
   Scenario: Attempt to Update a Book with Empty Strings

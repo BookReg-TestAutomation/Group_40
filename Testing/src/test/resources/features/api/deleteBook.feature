@@ -12,14 +12,12 @@ Feature: Delete Book API
     And a valid book is exists in the system
     When I send a DELETE request to "/api/books/" with it's id
     Then the response status code is equal to 200
-#    And the response should contain "Book successfully deleted"
 
   # Scenario: Attempt to Delete a Book That Does Not Exist
   Scenario: Attempt to Delete a Book That Does Not Exist
     Given I am authenticated as "admin" with password "password"
     When I send a DELETE request to "/api/books/" with Id "999"
     Then the response status code is equal to 404
-#    And the response should contain "Not Found"
 
   # Scenario: Attempt to Delete a Book Without Authentication
   Scenario: Attempt to Delete a Book Without Authentication
@@ -32,7 +30,6 @@ Feature: Delete Book API
     And a valid book is exists in the system
     When I send a DELETE request to "/api/books/" with it's id
     Then the response status code is equal to 400
-#    And the response should contain "User is not permitted."
 
     # Scenario: Data Type Validation for Id
   Scenario: Data Type Validation for Id
@@ -45,7 +42,6 @@ Feature: Delete Book API
     Given I am authenticated as "admin" with password "password"
     When I send a DELETE request to "/api/books/" without specifying an id
     Then the response status code is equal to 400
-#    And the response should contain "Book ID is required"
 
 
 
