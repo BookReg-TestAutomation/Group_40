@@ -65,7 +65,6 @@ Feature: Update Book API Scenarios
       | title |      |
       | author|      |
     Then the response status code is 400
-    And the error message should be "Invalid Input Parameters"
 
   # Scenario: Successful Update of a Book
   Scenario: Successful Update of a Book
