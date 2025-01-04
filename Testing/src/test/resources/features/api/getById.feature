@@ -28,7 +28,6 @@ Feature: Get Book by ID API
     When I send a GET request to "/api/books/<bookId>"
     Then the response status code should be 200
     And the response should contain the book details
-#    And the book should have "id", "title", and "author" fields
 
     Examples:
       | bookId |
